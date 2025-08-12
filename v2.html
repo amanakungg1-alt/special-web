@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Combining Text & Emoji</title>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700&display=swap');
+
+    body {
+        font-family: 'Baloo 2', cursive;
+        background: url('https://files.catbox.moe/44f8ez.jpg') center/cover no-repeat fixed;
+        color: #fff;
+        text-align: center;
+        padding: 40px 20px;
+        min-height: 100vh;
+        position: relative;
+    }
+    body::before {
+        content: '';
+        position: fixed;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        background: rgba(255, 192, 203, 0.35);
+        backdrop-filter: blur(5px);
+        z-index: -1;
+    }
+    h2 {
+        font-size: 32px;
+        color: #ffb6c1;
+        text-shadow: 0 0 10px rgba(255,182,193,0.8), 0 0 20px rgba(255,105,180,0.8);
+        animation: sparkle 1.5s infinite alternate;
+    }
+    .note-text {
+    color: black;
+    font-size: 14px;
+    font-weight: normal;
+    animation: none; /* Biar nggak kena animasi sparkle */
+    text-shadow: none; /* Biar nggak ada efek glow */
+}
+    @keyframes sparkle {
+        from { text-shadow: 0 0 8px #ffb6c1; }
+        to { text-shadow: 0 0 18px #ff69b4; }
+    }
+    input {
+        padding: 12px;
+        width: 270px;
+        border: 2px solid #ffb6c1;
+        border-radius: 20px;
+        font-size: 16px;
+        margin-top: 15px;
+        outline: none;
+        text-align: center;
+        background: rgba(255,255,255,0.6);
+        color: #444;
+        transition: all 0.3s ease;
+    }
+    input:focus {
+        border-color: #ff69b4;
+        box-shadow: 0 0 10px rgba(255,182,193,0.8);
+    }
+    button {
+        background: linear-gradient(45deg, #ffb6c1, #ff69b4);
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 20px;
+        font-size: 16px;
+        cursor: pointer;
+        font-weight: bold;
+        margin-top: 10px;
+        transition: 0.3s;
+        box-shadow: 0 4px 10px rgba(255,182,193,0.5);
+    }
+    button:hover {
+        transform: scale(1.08) rotate(-2deg);
+        box-shadow: 0 6px 15px rgba(255,182,193,0.7);
+    }
+    #result-box, #emoji-box {
+        display: none;
+        margin-top: 20px;
+        background: rgba(255,255,255,0.5);
+        padding: 20px;
+        border-radius: 20px;
+        word-break: break-word;
+        font-size: 20px;
+        color: #ff69b4;
+        box-shadow: 0 0 15px rgba(255,182,193,0.6);
+        position: relative;
+        animation: fadeIn 0.5s ease-in-out;
+    }
+    @keyframes fadeIn {
+        from { opacity: 0; transform: scale(0.95); }
+        to { opacity: 1; transform: scale(1); }
+    }
+    #copyBtn {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: linear-gradient(45deg, #ffd700, #ffa500);
+        color: #fff;
+        border: none;
+        padding: 5px 10px;
+        font-size: 14px;
+        border-radius: 12px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: 0.3s;
+    }
+    #copyBtn:hover {
+        transform: scale(1.1);
+        box-shadow: 0 0 12px rgba(255, 215, 0, 0.8);
+    }
+    .emoji-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
+        gap: 10px;
+        margin-top: 15px;
+    }
+    .emoji-item {
+        background: rgba(255,255,255,0.6);
+        padding: 8px;
+        border-radius: 12px;
+        font-size: 22px;
+        cursor: pointer;
+        transition: 0.2s;
+    }
+    .emoji-item:hover {
+        background: rgba(255,255,255,0.8);
+        transform: scale(1.1);
+    }
+</style>
+</head>
+<body>
+
+    <h2>💖💕 Combining Text Maker By Mvaa @dryyysukamvaaa</h2>
+    <input type="text" id="inputText" placeholder="Ketik teks yg mau dikasih love di sini...">
+    <br>
+    <button onclick="makeText()">💕 Buat</button>
+    <button onclick="showEmoji()">✨ Emoji lucuu ✨</button>
+
+    <div id="result-box">
+        <button id="copyBtn" onclick="copyText()">📋 Salin</button>
+        <span id="result"></span>
+    </div>
+
+    <div id="emoji-box">
+        <h3>✨ Emoji lucuu ✨</h3>
+        <div class="emoji-grid" id="emojiGrid"></div>
+    </div>
+    
+    <h2 class="note-text">PERINGATAN!! jika emoji/hurup kotak, salin terlebih dahulu dan tempel diwhatsapp!</h2>
+<br>
+
+<script>
+function makeText() {
+    let text = document.getElementById("inputText").value.trim();
+    let mark = "֟";
+    let output = "";
+
+    for (let i = 0; i < text.length; i++) {
+        output += text[i];
+        if (i < text.length - 1) {
+            output += mark;
+        }
+    }
+
+    if (text) {
+        document.getElementById("result").textContent = output;
+        document.getElementById("result-box").style.display = "block";
+    } else {
+        document.getElementById("result-box").style.display = "none";
+        alert("⚠ Ketik teks dulu, bestie!");
+    }
+}
+
+function copyText() {
+    let resultText = document.getElementById("result").textContent;
+    navigator.clipboard.writeText(resultText).then(() => {
+        alert("✅ Teks berhasil disalin! ✨");
+    }).catch(() => {
+        fallbackCopy(resultText);
+    });
+}
+
+function fallbackCopy(text) {
+    let temp = document.createElement("textarea");
+    temp.value = text;
+    document.body.appendChild(temp);
+    temp.select();
+    document.execCommand("copy");
+    document.body.removeChild(temp);
+    alert("✅ Teks berhasil disalin! ✨");
+}
+
+function showEmoji() {
+    let emojiList = ["ᰔ","ᰔᩚ","ෆ","ʚ","ɞ","ღ","დ","এ","ঞ","ᥫ᭡","ꨄ","ஐ","ᦗ"];
+    let grid = document.getElementById("emojiGrid");
+    grid.innerHTML = '';
+    emojiList.forEach(e => {
+        let div = document.createElement('div');
+        div.className = 'emoji-item';
+        div.textContent = e;
+        div.onclick = () => {
+            navigator.clipboard.writeText(e).then(() => {
+                alert("✅ Emoji disalin: " + e);
+            });
+        };
+        grid.appendChild(div);
+    });
+    document.getElementById("emoji-box").style.display = 'block';
+}
+</script>
+<!-- Tambahkan sebelum </body> -->
+<div style="margin-top: 40px;">
+    <a href="https://www.tiktok.com/@dryyysukamvaaa" target="_blank" 
+       style="display: inline-block; 
+              background: linear-gradient(45deg, #ffb6c1, #ff69b4);
+              color: white; 
+              padding: 10px 20px; 
+              border-radius: 25px; 
+              font-weight: bold; 
+              text-decoration: none; 
+              box-shadow: 0 4px 10px rgba(255,182,193,0.5);
+              transition: 0.3s;">
+        💖 Support & Follow di TikTok @dryyysukamvaaa
+    </a>
+</div>
+</body>
+</html>
